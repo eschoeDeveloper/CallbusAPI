@@ -42,6 +42,7 @@
 * ArtifactId : callbus_api
 
 # 프로젝트 구현
+* 서버 기본포트 사용 -> 8080
 * RESTFul API 방식 적용 ( RestController -> Service -> Jpa Repository )
 * Lombok Data Model 적용 ( Entity 객체 활용 )
 * API Method : GET - 조회, POST - 등록, PUT - 수정, DELETE - 삭제
@@ -52,11 +53,18 @@
 
 # 테스트 방식
 
-* 테스트 클래스 구현 ( SpringBootTest + JUnit )
+### 1] 테스트 클래스 구현 ( SpringBootTest + JUnit )
   - TDD 패턴 적용 ( Given-When-Then )
   - 구현 클래스 목록
     - PostTest : 글 작성/수정/삭제 테스트
     - PostLikeTest : 글 좋아요 설정/취소 테스트
-* 포스트맨 활용 테스트
-  - 
 
+###  2] 포스트맨 활용 테스트
+  - 컬렉션은 첨부된 CallbusAPI.collection 참조
+  - 아래 기능별 컬렉션 생성 후, Local Test 진행
+    - 글 작성
+    - 글 수정
+    - 글 삭제
+    - 글 좋아요 설정
+    - 글 좋아요 취소
+    - 삭제 글 조회

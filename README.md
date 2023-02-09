@@ -1,6 +1,6 @@
-callbus : Callbus Community API 구현
-callbus_db : SQLite 기반 Database
-CallbusAPI.postman_collection.json : 포스트맨 컬렉션 정보
+- callbus : Callbus Community API 구현
+- callbus_db : SQLite 기반 Database
+- CallbusAPI.postman_collection.json : 포스트맨 컬렉션 정보
 
 ---
 

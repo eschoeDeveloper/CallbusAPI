@@ -22,7 +22,7 @@ public class SecurityUserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String account_id) throws UsernameNotFoundException {
 
         Specification spec = Specification.where(UserSpecification.findUser(account_id));

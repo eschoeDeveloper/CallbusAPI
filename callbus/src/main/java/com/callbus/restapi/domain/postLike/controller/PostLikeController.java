@@ -4,6 +4,7 @@ package com.callbus.restapi.domain.postLike.controller;
 import com.callbus.restapi.core.model.ResponseApi;
 import com.callbus.restapi.core.security.UserDetailsModel;
 import com.callbus.restapi.domain.post.model.PostEntity;
+import com.callbus.restapi.domain.postLike.model.PostLikeDynamicSelect;
 import com.callbus.restapi.domain.postLike.model.PostLikeEntity;
 import com.callbus.restapi.domain.postLike.service.PostLikeService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class PostLikeController {
 
         try {
 
-            List<PostLikeEntity> postLikeList = postLikeService.getPostLikeList(userDetails.getAccount_id());
+            List<PostLikeDynamicSelect> postLikeList = postLikeService.getPostLikeList(userDetails.getAccount_id());
 
             responseApi.setResponseCode(HttpStatus.OK.value());
             responseApi.setResponseData(postLikeList);
@@ -81,7 +82,7 @@ public class PostLikeController {
                 postLikeService.savePostLike(postLike);
 
                 responseApi.setResponseCode(HttpStatus.OK.value());
-                responseApi.setResponseData("SUCCESS");
+                responseApi.setResponseData("좋아요 완료");
                 responseApi.setResponseMessage(HttpStatus.OK.name());
 
             } else {
@@ -95,7 +96,7 @@ public class PostLikeController {
         } catch(Exception e) {
 
             responseApi.setResponseCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            responseApi.setResponseData("FAIL");
+            responseApi.setResponseData("오류");
             responseApi.setResponseMessage(e.getMessage());
 
         }
@@ -125,13 +126,13 @@ public class PostLikeController {
             postLikeService.deletePostLike(postLike);
 
             responseApi.setResponseCode(HttpStatus.OK.value());
-            responseApi.setResponseData("SUCCESS");
+            responseApi.setResponseData("좋아요 취소 완료");
             responseApi.setResponseMessage(HttpStatus.OK.name());
 
         } catch(Exception e) {
 
             responseApi.setResponseCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            responseApi.setResponseData("FAIL");
+            responseApi.setResponseData("오류");
             responseApi.setResponseMessage(e.getMessage());
 
         }

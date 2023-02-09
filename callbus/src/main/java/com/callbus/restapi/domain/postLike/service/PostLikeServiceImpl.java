@@ -1,5 +1,6 @@
 package com.callbus.restapi.domain.postLike.service;
 
+import com.callbus.restapi.domain.postLike.model.PostLikeDynamicSelect;
 import com.callbus.restapi.domain.postLike.model.PostLikeEntity;
 import com.callbus.restapi.domain.postLike.repository.PostLikeRepository;
 import com.callbus.restapi.domain.postLike.repository.specification.PostLikeSpecification;
@@ -19,16 +20,15 @@ public class PostLikeServiceImpl implements PostLikeService {
     private final PostLikeRepository postLikeRepository;
 
     @Override
-    public List<PostLikeEntity> getPostLikeList(final String accountId) {
-        Specification<PostLikeEntity> specification = Specification.where( PostLikeSpecification.filterAccount(accountId) );
-        return postLikeRepository.findAll(specification);
+    public List<PostLikeDynamicSelect> getPostLikeList(final String account_id) {
+        return postLikeRepository.findAllByDynamicQuery(account_id);
     }
 
     @Override
-    public boolean isPostLike(final String accountId, final String postId) {
+    public boolean isPostLike(final String account_id, final String post_id) {
         Specification<PostLikeEntity> specification
-                = Specification.where( PostLikeSpecification.filterPostLike(postId) )
-                    .and( PostLikeSpecification.filterAccount(accountId) );
+                = Specification.where( PostLikeSpecification.filterPostLike(post_id) )
+                    .and( PostLikeSpecification.filterAccount(account_id) );
         return postLikeRepository.exists(specification);
     }
 

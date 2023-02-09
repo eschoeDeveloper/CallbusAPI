@@ -1,5 +1,6 @@
 package com.callbus.restapi.community;
 
+import com.callbus.restapi.domain.post.model.PostDynamicSelect;
 import com.callbus.restapi.domain.post.model.PostEntity;
 import com.callbus.restapi.domain.post.service.PostService;
 import com.querydsl.core.Tuple;
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,13 +42,12 @@ public class PostTest {
         // 1. Given
         final String account_id = "Realtor 47";
 
-
         // 2. When
-        List<PostEntity> getPostList = postService.getPostList(account_id);
+        List<PostDynamicSelect> getPostList = postService.getPostList(account_id);
 
         // 3. Then
         assertThat(getPostList);
-        getPostList.stream().forEach(post -> LOG.info(post.toString()));
+        getPostList.stream().forEach(post -> LOG.info("{} ::: {} ::: {}", post.getPost_id(), post.getTitle(), post.getContents()));
 
         LOG.debug("PostTest.listTest End");
 
@@ -58,6 +59,7 @@ public class PostTest {
         LOG.debug("PostTest.insertTest");
 
         // 1. Given
+
         PostEntity post = new PostEntity();
 
         post.setPost_id("CP002");
@@ -67,7 +69,17 @@ public class PostTest {
         // 생성일자는 쿼리에서 자동 입력되어 set을 하지 않았습니다.
 
         // 2. When
-        postService.savePost(post);
+        Optional<PostEntity> getPost = postService.getPost(post);
+
+        if(getPost.isPresent()) {
+
+            PostEntity presentPost = getPost.get();
+
+            if(presentPost.getDelete_yn().matches("N")) {
+                postService.savePost(post);
+            }
+
+        }
 
         // 3. Then
         LOG.debug("PostTest.insertTest End");
@@ -87,7 +99,13 @@ public class PostTest {
         post.setUpdate_date( LocalDateTime.now().format( DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") ) );
 
         // 2. When
-        postService.savePost(post);
+        Optional<PostEntity> getPost = postService.getPost(post);
+
+        if(!getPost.isPresent()) {
+            postService.savePost(post);
+        } else {
+            LOG.info("이미 등록된 게시글입니다.");
+        }
 
         // 3. Then
         LOG.debug("PostTest.insertTest End");

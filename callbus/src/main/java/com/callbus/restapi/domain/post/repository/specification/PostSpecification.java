@@ -5,8 +5,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class PostSpecification {
 
-    public static Specification<PostEntity> findPost(final String postId) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("post_id"), postId);
+    public static Specification<PostEntity> findPost(final String post_id) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("post_id"), post_id);
     }
 
     public static Specification<PostEntity> findDeletePost() {

@@ -1,0 +1,305 @@
+{
+	"info": {
+		"_postman_id": "0e5ec01b-5de5-4950-ba53-e7372783cb71",
+		"name": "CallbusAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "17838964"
+	},
+	"item": [
+		{
+			"name": "글 좋아요 설정",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authentication",
+						"value": "Realtor 47",
+						"type": "text"
+					},
+					{
+						"key": "Nickname",
+						"value": "Micky",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"post_id\": \"11111311111313\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/callbus/community/post/like/insert"
+			},
+			"response": []
+		},
+		{
+			"name": "글 좋아요 취소",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authentication",
+						"value": "Realtor 47",
+						"type": "text"
+					},
+					{
+						"key": "Nickname",
+						"value": "Micky",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"post_id\": \"11111311111313\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/callbus/community/post/like/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"callbus",
+						"community",
+						"post",
+						"like",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "Authentication",
+							"value": "Realtor 47",
+							"disabled": true
+						},
+						{
+							"key": "Nickname",
+							"value": "Micky",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "글 저장",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authentication",
+						"value": "Realtor 47",
+						"type": "text"
+					},
+					{
+						"key": "Nickname",
+						"value": "Micky",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"post_id\": \"1111131313\",\r\n    \"title\": \"커뮤니티 등록 1231312311\",\r\n    \"contents\": \"안녕하세요. 커뮤니티 글 작성 테스트12313131231입니다.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/callbus/community/post/save"
+			},
+			"response": []
+		},
+		{
+			"name": "글 수정",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authentication",
+						"value": "Realtor 47",
+						"type": "text"
+					},
+					{
+						"key": "Nickname",
+						"value": "Micky",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"post_id\": \"1111131313\",\r\n    \"title\": \"커뮤니티 등록 12311111312311\",\r\n    \"contents\": \"안녕하세요. 커뮤니티 글 작성 테스트12313131211131입니다.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/callbus/community/post/update"
+			},
+			"response": []
+		},
+		{
+			"name": "글 목록 조회",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authentication",
+						"value": "Realtor 47",
+						"type": "text"
+					},
+					{
+						"key": "Nickname",
+						"value": "Micky",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/callbus/community/post/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"callbus",
+						"community",
+						"post",
+						"list"
+					],
+					"query": [
+						{
+							"key": "Authentication",
+							"value": "Realtor 47",
+							"disabled": true
+						},
+						{
+							"key": "Nickname",
+							"value": "Micky",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "삭제 글 목록 조회",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authentication",
+						"value": "Realtor 47",
+						"type": "text"
+					},
+					{
+						"key": "Nickname",
+						"value": "Micky",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/callbus/community/post/list/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"callbus",
+						"community",
+						"post",
+						"list",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "Authentication",
+							"value": "Realtor 47",
+							"disabled": true
+						},
+						{
+							"key": "Nickname",
+							"value": "Micky",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "글 삭제",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authentication",
+						"value": "Realtor 47",
+						"type": "text"
+					},
+					{
+						"key": "Nickname",
+						"value": "Micky",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"post_id\": \"11111311111311313133\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/callbus/community/post/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"callbus",
+						"community",
+						"post",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "Authentication",
+							"value": "Realtor 47",
+							"disabled": true
+						},
+						{
+							"key": "Nickname",
+							"value": "Micky",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

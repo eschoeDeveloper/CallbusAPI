@@ -66,7 +66,7 @@
     - PostLikeTest : 글 좋아요 설정/취소 테스트
 
 ###  2] 포스트맨 활용 테스트
-  - 컬렉션은 첨부된 CallbusAPI.collection 참조
+  - 컬렉션 정보 : CallbusAPI.postman_collection.json
   - 아래 기능별 컬렉션 생성 후, Local Test 진행
     - 글 목록 조회
     - 삭제글 목록 조회

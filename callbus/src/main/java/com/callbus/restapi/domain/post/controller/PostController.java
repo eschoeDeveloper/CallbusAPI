@@ -2,20 +2,21 @@ package com.callbus.restapi.domain.post.controller;
 
 import com.callbus.restapi.core.model.ResponseApi;
 import com.callbus.restapi.core.security.UserDetailsModel;
+import com.callbus.restapi.domain.post.model.PostDynamicSelect;
 import com.callbus.restapi.domain.post.model.PostEntity;
 import com.callbus.restapi.domain.post.service.PostService;
-import com.callbus.restapi.domain.user.model.UserEntity;
+
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,16 +28,20 @@ public class PostController {
 
     private final PostService postService;
 
+    /**
+     * 커뮤니티 글 목록
+     * @return
+     */
     @GetMapping("/list")
     public ResponseEntity<ResponseApi> getPostList(
-
+        @AuthenticationPrincipal UserDetailsModel userDetailsModel
     ) {
 
         ResponseApi responseApi = new ResponseApi();
 
         try {
 
-            List<PostEntity> postList = postService.getPostList();
+            List<PostDynamicSelect> postList = postService.getPostList(userDetailsModel.getAccount_id());
 
             responseApi.setResponseCode(HttpStatus.OK.value());
             responseApi.setResponseData(postList);
@@ -54,6 +59,42 @@ public class PostController {
 
     }
 
+    /**
+     * 커뮤니티 삭제된 글 목록
+     * @return
+     */
+    @GetMapping("/list/delete")
+    public ResponseEntity<ResponseApi> getDeletePostList(
+
+    ) {
+
+        ResponseApi responseApi = new ResponseApi();
+
+        try {
+
+            List<PostEntity> postList = postService.getDeletePostList();
+
+            responseApi.setResponseCode(HttpStatus.OK.value());
+            responseApi.setResponseData(postList);
+            responseApi.setResponseMessage(HttpStatus.OK.name());
+
+        } catch(Exception e) {
+
+            responseApi.setResponseCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            responseApi.setResponseData(new Object());
+            responseApi.setResponseMessage(e.getMessage());
+
+        }
+
+        return ResponseEntity.ok(responseApi);
+
+    }
+
+    /**
+     * 커뮤니티 글 상세 조회
+     * @param post
+     * @return
+     */
     @GetMapping("/get")
     public ResponseEntity<ResponseApi> getPost(
             @RequestBody PostEntity post
@@ -81,6 +122,12 @@ public class PostController {
 
     }
 
+    /**
+     * 커뮤니티 글 등록
+     * @param post
+     * @param userDetailsModel
+     * @return
+     */
     @PostMapping("/insert")
     public ResponseEntity<ResponseApi> insertPost(
             @RequestBody PostEntity post,
@@ -119,6 +166,12 @@ public class PostController {
 
     }
 
+    /**
+     * 커뮤니티 글 수정
+     * @param post
+     * @param userDetailsModel
+     * @return
+     */
     @PutMapping("/update")
     public ResponseEntity<ResponseApi> updatePost(
             @RequestBody PostEntity post,
@@ -145,6 +198,8 @@ public class PostController {
 
                     if(presentPost.getDelete_yn().matches("N")) {
 
+                        post.setDelete_yn(presentPost.getDelete_yn());
+                        post.setId(presentPost.getId()); // 전달된 객체에는 고유 id를 가지고 있지않고, unique한 post id를 전달한다.
                         post.setUpdate_date(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
                         postService.savePost(post);
@@ -183,6 +238,11 @@ public class PostController {
 
     }
 
+    /**
+     * 커뮤니티 글 삭제
+     * @param post
+     * @return
+     */
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseApi> deletePost(
             @RequestBody PostEntity post
@@ -192,11 +252,23 @@ public class PostController {
 
         try {
 
-            postService.deletePost(post);
+            Optional<PostEntity> getPost = postService.getPost(post);
 
-            responseApi.setResponseCode(HttpStatus.OK.value());
-            responseApi.setResponseData("삭제 완료");
-            responseApi.setResponseMessage(HttpStatus.OK.name());
+            if(getPost.isPresent()) {
+
+                postService.deletePost(post);
+
+                responseApi.setResponseCode(HttpStatus.OK.value());
+                responseApi.setResponseData("삭제 완료");
+                responseApi.setResponseMessage(HttpStatus.OK.name());
+
+            } else {
+
+                responseApi.setResponseCode(HttpStatus.NOT_FOUND.value());
+                responseApi.setResponseData("존재하지 않는 게시글입니다.");
+                responseApi.setResponseMessage(HttpStatus.NOT_FOUND.name());
+
+            }
 
         } catch(Exception e) {
 

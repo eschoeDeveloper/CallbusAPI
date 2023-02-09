@@ -1,20 +1,16 @@
 package com.callbus.restapi.domain.post.model;
 
+import com.callbus.restapi.domain.postLike.model.PostLikeEntity;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -40,7 +36,7 @@ public class PostEntity {
     private String contents;
 
     @Column(name = "delete_yn")
-    private String delete_yn = "N";
+    private String delete_yn;
 
     @Column(name = "create_date", updatable = false)
     private String create_date;
@@ -51,17 +47,4 @@ public class PostEntity {
     @Column(name = "delete_date")
     private String delete_date;
 
-    @Override
-    public String toString() {
-        return "PostEntity{" +
-                "id=" + id +
-                ", post_id='" + post_id + '\'' +
-                ", title='" + title + '\'' +
-                ", contents='" + contents + '\'' +
-                ", delete_yn='" + delete_yn + '\'' +
-                ", create_date='" + create_date + '\'' +
-                ", update_date='" + update_date + '\'' +
-                ", delete_date='" + delete_date + '\'' +
-                '}';
-    }
 }

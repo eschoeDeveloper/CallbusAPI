@@ -2,6 +2,7 @@ package com.callbus.restapi.community;
 
 import com.callbus.restapi.domain.post.model.PostEntity;
 import com.callbus.restapi.domain.post.service.PostService;
+import com.querydsl.core.Tuple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,14 +38,14 @@ public class PostTest {
         LOG.debug("PostTest.listTest");
 
         // 1. Given
-        List<PostEntity> getPostList = new ArrayList<>();
+        final String account_id = "Realtor 47";
+
 
         // 2. When
-        getPostList = postService.getPostList();
+        List<PostEntity> getPostList = postService.getPostList(account_id);
 
         // 3. Then
         assertThat(getPostList);
-
         getPostList.stream().forEach(post -> LOG.info(post.toString()));
 
         LOG.debug("PostTest.listTest End");

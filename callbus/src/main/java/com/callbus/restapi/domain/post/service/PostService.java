@@ -1,15 +1,19 @@
 package com.callbus.restapi.domain.post.service;
 
+import com.callbus.restapi.domain.post.model.PostDynamicSelect;
 import com.callbus.restapi.domain.post.model.PostEntity;
+import com.querydsl.core.Tuple;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PostService {
 
-    List<PostEntity> getPostList();
+//    List<PostEntity> getPostList(String account_id);
 
-    List<PostEntity> getDeletePostList(PostEntity post);
+    List<PostDynamicSelect> getPostList(String account_id);
+
+    List<PostEntity> getDeletePostList();
 
     Optional<PostEntity> getPost(PostEntity post);
 

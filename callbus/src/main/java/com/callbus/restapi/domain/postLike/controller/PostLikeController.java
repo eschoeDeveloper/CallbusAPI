@@ -23,6 +23,11 @@ public class PostLikeController {
 
     private final PostLikeService postLikeService;
 
+    /**
+     * 커뮤니티 글 좋아요 목록
+     * @param userDetails
+     * @return
+     */
     @GetMapping("/list")
     public ResponseEntity<ResponseApi> getPostLikeList(
             @AuthenticationPrincipal UserDetailsModel userDetails
@@ -50,6 +55,13 @@ public class PostLikeController {
 
     }
 
+
+    /**
+     * 커뮤니티 글 좋아요 설정
+     * @param postLike
+     * @param userDetails
+     * @return
+     */
     @PostMapping("/insert")
     public ResponseEntity<ResponseApi> insertPostLike(
             @RequestBody PostLikeEntity postLike,
@@ -92,6 +104,12 @@ public class PostLikeController {
 
     }
 
+    /**
+     * 커뮤니티 글 좋아요 취소
+     * @param postLike
+     * @param userDetails
+     * @return
+     */
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseApi> deletePostLike(
             @RequestBody PostLikeEntity postLike,

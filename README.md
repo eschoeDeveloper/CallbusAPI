@@ -1,6 +1,12 @@
-- callbus : Callbus Community API 구현
-- callbus_db : SQLite 기반 Database
-- CallbusAPI.postman_collection.json : 포스트맨 컬렉션 정보
+# Callbus Community API
+
+**Callbus 커뮤니티 API 프로젝트**는 공인중개사, 임대인, 임차인 전용 게시판 서비스입니다. 외부 사용자는 읽기 전용이며, 사용자 타입 별로 글을 구분하고, 좋아요 기능을 지원합니다.
+
+---
+
+### callbus : Callbus Community API 구현
+### callbus_db : SQLite 기반 Database
+### CallbusAPI.postman_collection.json : 포스트맨 컬렉션 정보
 
 ---
 
@@ -11,6 +17,8 @@
 - 글 목록에서 작성한 사용자가 어떤 계정 타입인지를 표시할 수 있어야 한다.
 - 글 목록에서 좋아요 수를 표시할 수 있어야 한다.
 - 자신이 좋아요한 글인지 아닌지 표시할 수 있어야 한다.
+
+---
 
 # 기술 요구사항
 
@@ -26,21 +34,23 @@
 - 사용자가 어떤 글에 좋아요를 했는지 히스토리를 확인할 수 있어야 한다.
 - 각 글은 작성시간, 마지막 수정시간, 삭제시간에 대한 히스토리를 확인할 수 있어야 한다.
 
-# 개발환경
+---
 
+## 🛠️ 기술 스택
+
+- Java 19 (빌드 시 JDK 1.8 사용)
 - Spring Boot 2.7.8
-
-  - Security
-  - Web
-  - Data JPA
-
-- SDK - OpenJDK 19 -> 프로젝트 설정 시 JDK 1.8로 지정
-- Embedded Tomcat
-- YAML
-- Gradle
+- Spring Security
+- Spring Web
+- Spring Data JPA
 - QueryDSL 5
 - SQLite 3
 - Lombok
+- Gradle
+- Embedded Tomcat
+- YAML 기반 설정
+
+---
 
 # 프로젝트 정보
 
@@ -60,29 +70,95 @@
   - CALLBUS_POST_LIKE : 게시글 좋아요 정보
   - CALLBUS_USER : 사용자 정보 ( 현재 저장 기능은 없지만, 필요 시 구현 가능 )
 
-# 빌드 방법
+# 프로젝트 구조
+```text
+callbus_api/
+├── src/
+│ ├── main/
+│ │ ├── java/com/callbus/restapi/
+│ │ │ ├── controller/
+│ │ │ ├── service/
+│ │ │ ├── repository/
+│ │ │ └── domain/
+│ │ └── resources/
+│ │ └── application.yml
+├── callbus_db/ # SQLite 데이터베이스 디렉토리
+├── CallbusAPI.postman_collection.json
+└── build.gradle
+```
 
-- 프로젝트 루트 경로에서 아래 명령어 실행
-  - gradlew build
+---
 
-# 테스트 방식
+## ✅ 주요 기능
 
-### 1] 테스트 클래스 구현 ( SpringBootTest + JUnit )
+### 사용자
 
-- TDD 패턴 적용 ( Given-When-Then )
-- 구현 클래스 목록
-  - PostTest : 글 작성/수정/삭제 테스트
-  - PostLikeTest : 글 좋아요 설정/취소 테스트
+- 사용자 유형 구분: `임차인(Lessee)`, `임대인(Lessor)`, `공인중개사(Realtor)`, `외부 사용자`
+- 인증된 사용자만 게시글 작성 가능 (외부 사용자는 ReadOnly)
 
-### 2] 포스트맨 활용 테스트
+### 게시글
 
-- 컬렉션 정보 : CallbusAPI.postman_collection.json 파일 참조
-- 아래 기능별 컬렉션 생성 후, Local Test 진행
+- **목록 조회**: 작성자 타입, 좋아요 수, 내가 좋아요한 여부 포함
+- **작성/수정/삭제**: 인증 사용자만 가능
+- **히스토리**: 생성일, 수정일, 삭제일 저장
+
+### 좋아요
+
+- **좋아요 설정/취소**: 계정당 한 글에 한 번만 가능
+- **좋아요 히스토리 조회**: 어떤 글에 좋아요했는지 확인 가능
+
+## 🔐 인증
+
+- Spring Security 기반 사용자 인증
+- 사용자 정보는 `SecurityContext` 에서 관리
+
+---
+
+## 🧪 테스트
+
+### 1. 단위 테스트 (JUnit + SpringBootTest)
+
+- `PostTest`: 게시글 작성/수정/삭제 테스트
+- `PostLikeTest`: 좋아요 설정/취소 테스트
+- TDD 기반: `Given - When - Then`
+
+### 2. 포스트맨 테스트
+
+- Postman Collection 파일: `CallbusAPI.postman_collection.json`
+- 포함된 API 테스트:
   - 글 목록 조회
   - 삭제글 목록 조회
   - 글 작성
   - 글 수정
   - 글 삭제
-  - 글 좋아요 목록
-  - 글 좋아요 설정
-  - 글 좋아요 취소
+  - 좋아요 설정/취소
+  - 좋아요한 글 목록
+
+---
+
+# 서버 실행
+
+## 프로젝트 빌드
+```bash
+./gradlew build
+```
+
+##  서버 실행
+```bash
+./gradlew bootRun
+```
+
+---
+
+# 📜 라이선스
+이 프로젝트는 내부 테스트용으로 제공되며 별도 라이선스가 적용되지 않았습니다.
+
+---
+
+# 📬 문의
+- 작성자 : Choe Eui Seung
+- Email : develop.eschoe@gmail.com 
+
+
+
+
